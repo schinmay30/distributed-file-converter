@@ -7,12 +7,15 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((HOST, PORT))
 
 filename = "sample.txt"
-content = "Hello this is a distributed system project"
 
-client.send(filename.encode())
-client.send(content.encode())
+with open(filename, "r") as f:
+    data = f.read()
+
+# 🔥 IMPORTANT: send filename + data
+client.sendall(filename.encode())
+client.sendall(data.encode())
 
 response = client.recv(1024).decode()
-print("Server response:", response)
+print("Server:", response)
 
 client.close()
