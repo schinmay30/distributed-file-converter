@@ -1,16 +1,31 @@
+from fpdf import FPDF
 import os
 
 def convert_file(input_path, output_path):
     try:
-        with open(input_path, 'r') as f:
-            content = f.read()
+        if input_path.endswith(".txt"):
+            pdf = FPDF()
+            pdf.add_page()
+            pdf.set_font("Arial", size=12)
 
-        converted_content = content.upper()
+            with open(input_path, "r") as file:
+                for line in file:
+                    pdf.cell(200, 10, txt=line.strip(), ln=True)
 
-        with open(output_path, 'w') as f:
-            f.write(converted_content)
+            output_pdf = output_path.replace(".txt", ".pdf")
+            pdf.output(output_pdf)
 
-        return True
+            return True
+
+        else:
+            # fallback (copy file)
+            with open(input_path, "r") as f:
+                data = f.read()
+            with open(output_path, "w") as f:
+                f.write(data)
+
+            return True
+
     except Exception as e:
         print("Conversion error:", e)
         return False
