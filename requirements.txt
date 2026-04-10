@@ -1,1 +1,3 @@
-# No external libraries required
+fpdf
+python-docx
+# pypandoc (optional, for more formats)
